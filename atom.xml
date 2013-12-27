@@ -4,7 +4,7 @@
   <title><![CDATA[Clive Lee Blog]]></title>
   <link href="http://clivelee.github.io/atom.xml" rel="self"/>
   <link href="http://clivelee.github.io/"/>
-  <updated>2013-12-27T13:47:57+08:00</updated>
+  <updated>2013-12-27T14:30:02+08:00</updated>
   <id>http://clivelee.github.io/</id>
   <author>
     <name><![CDATA[Clive Lee]]></name>
@@ -40,15 +40,15 @@
 
 <h3>版本约定</h3>
 
-<p><code>lib{name}.a</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lib{name}.a</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>实例</h3>
 
 <p>例如现在有一个实例程序say.h、say.c以及调用程序main.c,它们的内容如下：</p>
 
-<p>say.h</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>say.h</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -59,9 +59,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>say.c</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+<figure class='code'><figcaption><span>say.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -72,9 +72,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>main.c</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -87,7 +87,7 @@
 
 <p>接下来我们需要编译这些源代码</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -113,7 +113,7 @@
 
 <p>了解了上面的规则后可以使用刚刚产生的静态库</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -134,7 +134,7 @@
 
 <p>从上面的显示结果可以看出编译后的say_hi可执行程序有8.3K,同时当我们删除了libsay.a后，这个可执行程序任然可以正常执行。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -177,7 +177,7 @@
 
 <p>下面这个实验我们将之前编译的say.c编译成动态库，实验步骤如下：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -209,7 +209,7 @@
 
 <p>ldd命令</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -244,30 +244,6 @@
 <li>将动态库的目录添加到/etc/ld.so.cache中，并重新运行ldconfig命令</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Lets Go for Go Programming]]></title>
-    <link href="http://clivelee.github.io/blog/2013/11/26/lets-go-for-go-programming/"/>
-    <updated>2013-11-26T00:00:00+08:00</updated>
-    <id>http://clivelee.github.io/blog/2013/11/26/lets-go-for-go-programming</id>
-    <content type="html"><![CDATA[<hr />
-
-<p>layout: post
-title: &ldquo;Let&rsquo;s go for go programming&rdquo;
-date: 2013-11-26 00:15:51 +0800
-comments: true</p>
-
-<h2>categories: DIY Blog</h2>
-
-<h2>学习如何建立Blog</h2>
-
-<p>今天看别人用octpress+stackedit+github构造了一个看似还满不错的blog,于是自己也学着来玩一下.其实很早之前就有想写Blog的欲望,但由于本人的一些挑剔的坏毛病而一直没有开始.终于在茫茫网络中发现了stackedit和Markdown之后,觉得写blog而且是写一个比较漂亮的Blog已经不算是一件难事情了.</p>
-
-<p>OK,来看看我们是如何搭建属于自己的博客的.</p>
-
-<h3>octpress安装篇</h3>
 ]]></content>
   </entry>
   

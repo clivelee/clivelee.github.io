@@ -9,7 +9,8 @@
   <meta name="author" content="Clive Lee">
 
   
-  <meta name="description" content="Linux C语言编程——库的制作和使用 一.静态库 定义 一般是以.a结尾的文件，这些库将被载入到程序中产生的目标文件将会较大 创建办法 第1步：编译源代码name.c gcc -c {name}.c 第2步：打包 ar cr lib{name}.a {name}.c 版本约定 lib{name &hellip;">
+  <meta name="description" content="Linux C语言编程——库的制作和使用 一.静态库 定义 一般是以.a结尾的文件，这些库将被载入到程序中产生的目标文件将会较大 创建办法 第1步：编译源代码name.c gcc -c {name}.c 第2步：打包 ar cr lib{name}.a {name}.c 版本约定 1
+lib{ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -38,7 +39,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Clive Lee Blog</a></h1>
   
-    <h2>A bird for computer science.</h2>
+    <h2>程序员的自我修行</h2>
   
 </hgroup>
 
@@ -116,15 +117,15 @@
 
 <h3>版本约定</h3>
 
-<p><code>lib{name}.a</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lib{name}.a</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>实例</h3>
 
 <p>例如现在有一个实例程序say.h、say.c以及调用程序main.c,它们的内容如下：</p>
 
-<p>say.h</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>say.h</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -135,9 +136,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>say.c</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+<figure class='code'><figcaption><span>say.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -148,9 +149,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>main.c</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -163,7 +164,7 @@
 
 <p>接下来我们需要编译这些源代码</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -189,7 +190,7 @@
 
 <p>了解了上面的规则后可以使用刚刚产生的静态库</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -210,7 +211,7 @@
 
 <p>从上面的显示结果可以看出编译后的say_hi可执行程序有8.3K,同时当我们删除了libsay.a后，这个可执行程序任然可以正常执行。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -253,7 +254,7 @@
 
 <p>下面这个实验我们将之前编译的say.c编译成动态库，实验步骤如下：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -285,7 +286,7 @@
 
 <p>ldd命令</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -327,57 +328,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/26/lets-go-for-go-programming/">Lets Go for Go Programming</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-26T00:00:00+08:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
-
-<p>layout: post
-title: &ldquo;Let&rsquo;s go for go programming&rdquo;
-date: 2013-11-26 00:15:51 +0800
-comments: true</p>
-
-<h2>categories: DIY Blog</h2>
-
-<h2>学习如何建立Blog</h2>
-
-<p>今天看别人用octpress+stackedit+github构造了一个看似还满不错的blog,于是自己也学着来玩一下.其实很早之前就有想写Blog的欲望,但由于本人的一些挑剔的坏毛病而一直没有开始.终于在茫茫网络中发现了stackedit和Markdown之后,觉得写blog而且是写一个比较漂亮的Blog已经不算是一件难事情了.</p>
-
-<p>OK,来看看我们是如何搭建属于自己的博客的.</p>
-
-<h3>octpress安装篇</h3>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -392,10 +342,6 @@ comments: true</p>
     
       <li class="post">
         <a href="/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku/">Linux笔记-静态库与动态库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/26/lets-go-for-go-programming/">Lets Go for Go Programming</a>
       </li>
     
   </ul>
@@ -423,16 +369,6 @@ comments: true</p>
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

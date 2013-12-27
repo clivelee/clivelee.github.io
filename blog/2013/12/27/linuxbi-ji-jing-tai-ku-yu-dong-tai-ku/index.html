@@ -9,7 +9,8 @@
   <meta name="author" content="Clive Lee">
 
   
-  <meta name="description" content="Linux C语言编程——库的制作和使用 一.静态库 定义 一般是以.a结尾的文件，这些库将被载入到程序中产生的目标文件将会较大 创建办法 第1步：编译源代码name.c gcc -c {name}.c 第2步：打包 ar cr lib{name}.a {name}.c 版本约定 lib{name &hellip;">
+  <meta name="description" content="Linux C语言编程——库的制作和使用 一.静态库 定义 一般是以.a结尾的文件，这些库将被载入到程序中产生的目标文件将会较大 创建办法 第1步：编译源代码name.c gcc -c {name}.c 第2步：打包 ar cr lib{name}.a {name}.c 版本约定 1
+lib{ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -38,7 +39,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Clive Lee Blog</a></h1>
   
-    <h2>A bird for computer science.</h2>
+    <h2>程序员的自我修行</h2>
   
 </hgroup>
 
@@ -113,15 +114,15 @@
 
 <h3>版本约定</h3>
 
-<p><code>lib{name}.a</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lib{name}.a</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>实例</h3>
 
 <p>例如现在有一个实例程序say.h、say.c以及调用程序main.c,它们的内容如下：</p>
 
-<p>say.h</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>say.h</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -132,9 +133,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>say.c</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+<figure class='code'><figcaption><span>say.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -145,9 +146,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>main.c</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -160,7 +161,7 @@
 
 <p>接下来我们需要编译这些源代码</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -186,7 +187,7 @@
 
 <p>了解了上面的规则后可以使用刚刚产生的静态库</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -207,7 +208,7 @@
 
 <p>从上面的显示结果可以看出编译后的say_hi可执行程序有8.3K,同时当我们删除了libsay.a后，这个可执行程序任然可以正常执行。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -250,7 +251,7 @@
 
 <p>下面这个实验我们将之前编译的say.c编译成动态库，实验步骤如下：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -282,7 +283,7 @@
 
 <p>ldd命令</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -353,16 +354,12 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku/" data-via="" data-counturl="http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku/" >Tweet</a>
-  
   
   
 </div>
 
     
     <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/11/26/lets-go-for-go-programming/" title="Previous Post: Lets Go For Go Programming">&laquo; Lets Go For Go Programming</a>
       
       
     </p>
@@ -379,10 +376,6 @@
     
       <li class="post">
         <a href="/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku/">Linux笔记-静态库与动态库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/26/lets-go-for-go-programming/">Lets Go for Go Programming</a>
       </li>
     
   </ul>
@@ -411,16 +404,6 @@
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 
