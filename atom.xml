@@ -1,16 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Clive Lee Blog]]></title>
   <link href="http://clivelee.github.io/atom.xml" rel="self"/>
   <link href="http://clivelee.github.io/"/>
-  <updated>2013-11-25T18:59:33+08:00</updated>
+  <updated>2013-12-27T13:47:57+08:00</updated>
   <id>http://clivelee.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Clive Lee]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux笔记-静态库与动态库]]></title>
+    <link href="http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku/"/>
+    <updated>2013-12-27T13:43:31+08:00</updated>
+    <id>http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku</id>
+    <content type="html"><![CDATA[<h1>Linux C语言编程——库的制作和使用</h1>
+
+<h2>一.静态库</h2>
+
+<h3>定义</h3>
+
+<p>一般是以.a结尾的文件，这些库将被载入到程序中产生的目标文件将会较大</p>
+
+<h3>创建办法</h3>
+
+<p>第1步：编译源代码name.c</p>
+
+<pre><code>gcc -c {name}.c
+</code></pre>
+
+<p>第2步：打包</p>
+
+<pre><code>ar cr lib{name}.a {name}.c
+</code></pre>
+
+<h3>版本约定</h3>
+
+<p><code>lib{name}.a</code></p>
+
+<h3>实例</h3>
+
+<p>例如现在有一个实例程序say.h、say.c以及调用程序main.c,它们的内容如下：</p>
+
+<p>say.h</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#ifndef SAY_H</span>
+</span><span class='line'><span class="cp">#define SAY_H</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">say_hi</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>say.c</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">say_hi</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Say hi to %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>main.c</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &quot;say.h&quot;</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">say_hi</span><span class="p">(</span><span class="s">&quot;John&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来我们需要编译这些源代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span>
+</span><span class='line'><span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>  <span class="n">say</span><span class="p">.</span><span class="n">h</span>  <span class="n">say</span><span class="p">.</span><span class="n">o</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ar</span> <span class="n">cr</span> <span class="n">libsay</span><span class="p">.</span><span class="n">a</span> <span class="n">say</span><span class="p">.</span><span class="n">o</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span>
+</span><span class='line'><span class="n">libsay</span><span class="p">.</span><span class="n">a</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">h</span> <span class="n">say</span><span class="p">.</span><span class="n">o</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK,通过ar命令已经生成了静态库libsay.a。最后我们需要在gcc编译的过程中使用此静态库。gcc命令中有两个选项是和编译库有关的-l和-L:</p>
+
+<ul>
+<li>-L参数跟着的是库文件所在的目录名</li>
+<li>-l参数就是用来指定程序要链接的库，-l参数紧接着就是库名</li>
+<li>-lsay等价于使用say.a或say.so。</li>
+</ul>
+
+
+<p>了解了上面的规则后可以使用刚刚产生的静态库</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">o</span> <span class="n">say_hi</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="o">-</span><span class="n">L</span><span class="p">.</span> <span class="o">-</span><span class="n">lsay</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span> <span class="o">-</span><span class="n">lh</span>
+</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>   <span class="mf">1.0</span><span class="n">K</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">10</span><span class="o">:</span><span class="mi">52</span> <span class="n">libsay</span><span class="p">.</span><span class="n">a</span>
+</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>    <span class="mi">52</span><span class="n">B</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">10</span><span class="o">:</span><span class="mi">51</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span>
+</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>    <span class="mi">89</span><span class="n">B</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">10</span><span class="o">:</span><span class="mi">51</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>
+</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>    <span class="mi">66</span><span class="n">B</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">11</span><span class="o">:</span><span class="mi">17</span> <span class="n">say</span><span class="p">.</span><span class="n">h</span>
+</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>   <span class="mi">832</span><span class="n">B</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">10</span><span class="o">:</span><span class="mi">51</span> <span class="n">say</span><span class="p">.</span><span class="n">o</span>
+</span><span class='line'><span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>   <span class="mf">8.3</span><span class="n">K</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">11</span><span class="o">:</span><span class="mi">17</span> <span class="n">say_hi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从上面的显示结果可以看出编译后的say_hi可执行程序有8.3K,同时当我们删除了libsay.a后，这个可执行程序任然可以正常执行。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="p">.</span><span class="o">/</span><span class="n">say_hi</span>
+</span><span class='line'><span class="n">Say</span> <span class="n">hi</span> <span class="n">to</span> <span class="n">John</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">rm</span> <span class="n">libsay</span><span class="p">.</span><span class="n">a</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span>
+</span><span class='line'><span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>  <span class="n">say</span><span class="p">.</span><span class="n">h</span>  <span class="n">say</span><span class="p">.</span><span class="n">o</span>  <span class="n">say_hi</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="p">.</span><span class="o">/</span><span class="n">say_hi</span>
+</span><span class='line'><span class="n">Say</span> <span class="n">hi</span> <span class="n">to</span> <span class="n">John</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要说明的是<font color='red'>当静态库和动态库同名的时候，系统优先使用动态库。</font></p>
+
+<h2>二.共享库</h2>
+
+<h3>定义</h3>
+
+<p>在文件名中包含.so的，由gcc编译产生，特点是共享而不载入到编译产生的目标文件中</p>
+
+<h3>创建办法</h3>
+
+<p>编译</p>
+
+<pre><code>gcc -shared -fPIC -o lib{name}.so {name}.so
+</code></pre>
+
+<h3>版本约定</h3>
+
+<pre><code>lib{name}.so.{first_version}.{second_version}  
+</code></pre>
+
+<p>如libhello.so.1.2表示hello的动态库的1.2版</p>
+
+<h3>实例</h3>
+
+<p>下面这个实验我们将之前编译的say.c编译成动态库，实验步骤如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">fPCI</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">shared</span> <span class="o">-</span><span class="n">fPIC</span> <span class="o">-</span><span class="n">o</span> <span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="n">say</span><span class="p">.</span><span class="n">o</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span>
+</span><span class='line'><span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span>    <span class="n">say</span><span class="p">.</span><span class="n">c</span>     <span class="n">say</span><span class="p">.</span><span class="n">h</span>     <span class="n">say</span><span class="p">.</span><span class="n">o</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">o</span> <span class="n">say_hi</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="o">-</span><span class="n">L</span><span class="p">.</span> <span class="o">-</span><span class="n">lsay</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">cp</span> <span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="p">.</span><span class="o">/</span><span class="n">say_hi</span>
+</span><span class='line'><span class="p">.</span><span class="o">/</span><span class="n">say_hi</span><span class="o">:</span> <span class="n">error</span> <span class="k">while</span> <span class="n">loading</span> <span class="n">shared</span> <span class="n">libraries</span><span class="o">:</span> <span class="n">libsay</span><span class="p">.</span><span class="n">so</span><span class="o">:</span> <span class="n">cannot</span> <span class="n">open</span> <span class="n">shared</span> <span class="n">object</span> <span class="n">file</span><span class="o">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">mv</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">lib</span>
+</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="p">.</span><span class="o">/</span><span class="n">say_hi</span>
+</span><span class='line'><span class="n">Say</span> <span class="n">hi</span> <span class="n">to</span> <span class="n">John</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>总结一下实验看到的结果：<strong>编译时必须让ld能够找到动态库，而由于操作系统的差异有可能无法在/usr/lib中找到。</strong>
+保险的做法还是配置LD_LIBRAY_PATH中的值，或者用ldconfig配置动态库的路径。</p>
+
+<h3>查看某个可执行程序依赖哪些库</h3>
+
+<p>ldd命令</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ldd</span> <span class="n">say_hi</span>
+</span><span class='line'>  <span class="n">linux</span><span class="o">-</span><span class="n">vdso</span><span class="p">.</span><span class="n">so</span><span class="mf">.1</span> <span class="o">=&gt;</span>  <span class="p">(</span><span class="mh">0x00007fff037ff000</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="o">=&gt;</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="p">(</span><span class="mh">0x00007faea1f6b000</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">libc</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libc</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="p">(</span><span class="mh">0x0000003847400000</span><span class="p">)</span>
+</span><span class='line'>  <span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">ld</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="mf">64.</span><span class="n">so</span><span class="mf">.2</span> <span class="p">(</span><span class="mh">0x0000003847000000</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到libsay.so使用的是/usr/lib/libsay.so这个共享库。</p>
+
+<h2>三.可执行程序定位共享库文件</h2>
+
+<p>对于elf格式的可执行程序而言，它搜索动态库的顺序如下</p>
+
+<ul>
+<li>elf文件的DT_RPATH段</li>
+<li>环境变量LD_LIBRARY_PATH</li>
+<li>/etc/ld.so.cache文件列表</li>
+<li>/lib/和/usr/lib/目录</li>
+</ul>
+
+
+<p>因此如果有一个新动态库希望在整个操作系统内可见，则可以有两种方式：</p>
+
+<ul>
+<li>直接拷贝到/usr/lib或/lib目录下；</li>
+<li>拷贝到环境变量LD_LIBRARY_PATH所定义的某个目录下</li>
+<li>将动态库的目录添加到/etc/ld.so.cache中，并重新运行ldconfig命令</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Lets Go for Go Programming]]></title>
+    <link href="http://clivelee.github.io/blog/2013/11/26/lets-go-for-go-programming/"/>
+    <updated>2013-11-26T00:00:00+08:00</updated>
+    <id>http://clivelee.github.io/blog/2013/11/26/lets-go-for-go-programming</id>
+    <content type="html"><![CDATA[<hr />
+
+<p>layout: post
+title: &ldquo;Let&rsquo;s go for go programming&rdquo;
+date: 2013-11-26 00:15:51 +0800
+comments: true</p>
+
+<h2>categories: DIY Blog</h2>
+
+<h2>学习如何建立Blog</h2>
+
+<p>今天看别人用octpress+stackedit+github构造了一个看似还满不错的blog,于是自己也学着来玩一下.其实很早之前就有想写Blog的欲望,但由于本人的一些挑剔的坏毛病而一直没有开始.终于在茫茫网络中发现了stackedit和Markdown之后,觉得写blog而且是写一个比较漂亮的Blog已经不算是一件难事情了.</p>
+
+<p>OK,来看看我们是如何搭建属于自己的博客的.</p>
+
+<h3>octpress安装篇</h3>
+]]></content>
+  </entry>
   
 </feed>

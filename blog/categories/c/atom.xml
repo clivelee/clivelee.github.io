@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: C | Clive Lee Blog]]></title>
+  <link href="http://clivelee.github.io/blog/categories/c/atom.xml" rel="self"/>
+  <link href="http://clivelee.github.io/"/>
+  <updated>2013-12-27T14:16:24+08:00</updated>
+  <id>http://clivelee.github.io/</id>
+  <author>
+    <name><![CDATA[Clive Lee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Linux笔记-静态库与动态库]]></title>
+    <link href="http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku/"/>
+    <updated>2013-12-27T13:43:31+08:00</updated>
+    <id>http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku</id>
+    <content type="html"><![CDATA[<h1>Linux C语言编程——库的制作和使用</h1>
+
+<h2>一.静态库</h2>
+
+<h3>定义</h3>
+
+<p>一般是以.a结尾的文件，这些库将被载入到程序中产生的目标文件将会较大</p>
+
+<h3>创建办法</h3>
+
+<p>第1步：编译源代码name.c</p>
+
+<pre><code>gcc -c {name}.c
+</code></pre>
+
+<p>第2步：打包</p>
+
+<pre><code>ar cr lib{name}.a {name}.c
+</code></pre>
+
+<h3>版本约定</h3>
+
+<p><code>
+lib{name}.a
+</code></p>
+
+<h3>实例</h3>
+
+<p>例如现在有一个实例程序say.h、say.c以及调用程序main.c,它们的内容如下：</p>
+
+<p>``` c say.h</p>
+
+<h1>ifndef SAY_H</h1>
+
+<h1>define SAY_H</h1>
+
+<p>void say_hi(const char *name);</p>
+
+<h1>endif</h1>
+
+<p>```</p>
+
+<p>``` c say.c</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>void say_hi(const char *name) {</p>
+
+<pre><code>printf("Say hi to %s\n", name);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```c main.c</p>
+
+<h1>include &ldquo;say.h&rdquo;</h1>
+
+<p>int main() {</p>
+
+<pre><code>say_hi("John");
+</code></pre>
+
+<p>}
+```</p>
+
+<p>接下来我们需要编译这些源代码</p>
+
+<p><code>shell
+$&gt; gcc -c say.c
+$&gt; ls
+main.c say.c  say.h  say.o
+$&gt; ar cr libsay.a say.o
+$&gt; ls
+libsay.a main.c say.c say.h say.o
+</code></p>
+
+<p>OK,通过ar命令已经生成了静态库libsay.a。最后我们需要在gcc编译的过程中使用此静态库。gcc命令中有两个选项是和编译库有关的-l和-L:</p>
+
+<ul>
+<li>-L参数跟着的是库文件所在的目录名</li>
+<li>-l参数就是用来指定程序要链接的库，-l参数紧接着就是库名</li>
+<li>-lsay等价于使用say.a或say.so。</li>
+</ul>
+
+
+<p>了解了上面的规则后可以使用刚刚产生的静态库</p>
+
+<p><code>shell
+$&gt; gcc -o say_hi main.c -L. -lsay
+$&gt; ls -lh
+-rw-r--r--  1 clive  staff   1.0K 12 26 10:52 libsay.a
+-rw-r--r--  1 clive  staff    52B 12 26 10:51 main.c
+-rw-r--r--  1 clive  staff    89B 12 26 10:51 say.c
+-rw-r--r--  1 clive  staff    66B 12 26 11:17 say.h
+-rw-r--r--  1 clive  staff   832B 12 26 10:51 say.o
+-rwxr-xr-x  1 clive  staff   8.3K 12 26 11:17 say_hi
+</code></p>
+
+<p>从上面的显示结果可以看出编译后的say_hi可执行程序有8.3K,同时当我们删除了libsay.a后，这个可执行程序任然可以正常执行。</p>
+
+<p><code>shell
+$&gt; ./say_hi
+Say hi to John
+$&gt; rm libsay.a
+$&gt; ls
+main.c say.c  say.h  say.o  say_hi
+$&gt; ./say_hi
+Say hi to John
+</code>
+需要说明的是<font color='red'>当静态库和动态库同名的时候，系统优先使用动态库。</font></p>
+
+<h2>二.共享库</h2>
+
+<h3>定义</h3>
+
+<p>在文件名中包含.so的，由gcc编译产生，特点是共享而不载入到编译产生的目标文件中</p>
+
+<h3>创建办法</h3>
+
+<p>编译</p>
+
+<pre><code>gcc -shared -fPIC -o lib{name}.so {name}.so
+</code></pre>
+
+<h3>版本约定</h3>
+
+<pre><code>lib{name}.so.{first_version}.{second_version}  
+</code></pre>
+
+<p>如libhello.so.1.2表示hello的动态库的1.2版</p>
+
+<h3>实例</h3>
+
+<p>下面这个实验我们将之前编译的say.c编译成动态库，实验步骤如下：</p>
+
+<p><code>shell
+$&gt; gcc -c -fPCI say.c
+$&gt; gcc -shared -fPIC -o libsay.so say.o
+$&gt; ls
+libsay.so main.c    say.c     say.h     say.o   
+$&gt; gcc -o say_hi main.c -L. -lsay
+$&gt; cp libsay.so /usr/lib
+$&gt; ./say_hi
+./say_hi: error while loading shared libraries: libsay.so: cannot open shared object file: No such file or directory
+$&gt; mv /usr/lib/libsay.so /lib
+$&gt; ./say_hi
+Say hi to John
+</code></p>
+
+<p>总结一下实验看到的结果：<strong>编译时必须让ld能够找到动态库，而由于操作系统的差异有可能无法在/usr/lib中找到。</strong>
+保险的做法还是配置LD_LIBRAY_PATH中的值，或者用ldconfig配置动态库的路径。</p>
+
+<h3>查看某个可执行程序依赖哪些库</h3>
+
+<p>ldd命令</p>
+
+<p>``` shell
+$> ldd say_hi</p>
+
+<pre><code>linux-vdso.so.1 =&gt;  (0x00007fff037ff000)
+libsay.so =&gt; /usr/lib/libsay.so (0x00007faea1f6b000)
+libc.so.6 =&gt; /lib64/libc.so.6 (0x0000003847400000)
+/lib64/ld-linux-x86-64.so.2 (0x0000003847000000)
+</code></pre>
+
+<p>```
+可以看到libsay.so使用的是/usr/lib/libsay.so这个共享库。</p>
+
+<h2>三.可执行程序定位共享库文件</h2>
+
+<p>对于elf格式的可执行程序而言，它搜索动态库的顺序如下</p>
+
+<ul>
+<li>elf文件的DT_RPATH段</li>
+<li>环境变量LD_LIBRARY_PATH</li>
+<li>/etc/ld.so.cache文件列表</li>
+<li>/lib/和/usr/lib/目录</li>
+</ul>
+
+
+<p>因此如果有一个新动态库希望在整个操作系统内可见，则可以有两种方式：</p>
+
+<ul>
+<li>直接拷贝到/usr/lib或/lib目录下；</li>
+<li>拷贝到环境变量LD_LIBRARY_PATH所定义的某个目录下</li>
+<li>将动态库的目录添加到/etc/ld.so.cache中，并重新运行ldconfig命令</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
