@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C | Clive Lee Blog]]></title>
   <link href="http://clivelee.github.io/blog/categories/c/atom.xml" rel="self"/>
   <link href="http://clivelee.github.io/"/>
-  <updated>2013-12-27T14:30:02+08:00</updated>
+  <updated>2013-12-27T14:46:50+08:00</updated>
   <id>http://clivelee.github.io/</id>
   <author>
     <name><![CDATA[Clive Lee]]></name>
@@ -18,9 +18,7 @@
     <link href="http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku/"/>
     <updated>2013-12-27T13:43:31+08:00</updated>
     <id>http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku</id>
-    <content type="html"><![CDATA[<h1>Linux C语言编程——库的制作和使用</h1>
-
-<h2>一.静态库</h2>
+    <content type="html"><![CDATA[<h2>一.静态库</h2>
 
 <h3>定义</h3>
 
@@ -86,7 +84,7 @@ lib{name}.a
 
 <p>接下来我们需要编译这些源代码</p>
 
-<p><code>
+<p><code>sh
 $&gt; gcc -c say.c
 $&gt; ls
 main.c say.c  say.h  say.o
@@ -106,7 +104,7 @@ libsay.a main.c say.c say.h say.o
 
 <p>了解了上面的规则后可以使用刚刚产生的静态库</p>
 
-<p><code>
+<p><code>sh
 $&gt; gcc -o say_hi main.c -L. -lsay
 $&gt; ls -lh
 -rw-r--r--  1 clive  staff   1.0K 12 26 10:52 libsay.a
@@ -119,7 +117,7 @@ $&gt; ls -lh
 
 <p>从上面的显示结果可以看出编译后的say_hi可执行程序有8.3K,同时当我们删除了libsay.a后，这个可执行程序任然可以正常执行。</p>
 
-<p><code>
+<p><code>sh
 $&gt; ./say_hi
 Say hi to John
 $&gt; rm libsay.a
@@ -154,7 +152,7 @@ Say hi to John
 
 <p>下面这个实验我们将之前编译的say.c编译成动态库，实验步骤如下：</p>
 
-<p><code>
+<p><code>sh
 $&gt; gcc -c -fPCI say.c
 $&gt; gcc -shared -fPIC -o libsay.so say.o
 $&gt; ls
@@ -175,7 +173,7 @@ Say hi to John
 
 <p>ldd命令</p>
 
-<p>```
+<p>```sh
 $> ldd say_hi</p>
 
 <pre><code>linux-vdso.so.1 =&gt;  (0x00007fff037ff000)

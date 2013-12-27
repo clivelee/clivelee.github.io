@@ -4,7 +4,7 @@
   <title><![CDATA[Clive Lee Blog]]></title>
   <link href="http://clivelee.github.io/atom.xml" rel="self"/>
   <link href="http://clivelee.github.io/"/>
-  <updated>2013-12-27T14:30:02+08:00</updated>
+  <updated>2013-12-27T14:46:50+08:00</updated>
   <id>http://clivelee.github.io/</id>
   <author>
     <name><![CDATA[Clive Lee]]></name>
@@ -18,9 +18,7 @@
     <link href="http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku/"/>
     <updated>2013-12-27T13:43:31+08:00</updated>
     <id>http://clivelee.github.io/blog/2013/12/27/linuxbi-ji-jing-tai-ku-yu-dong-tai-ku</id>
-    <content type="html"><![CDATA[<h1>Linux C语言编程——库的制作和使用</h1>
-
-<h2>一.静态库</h2>
+    <content type="html"><![CDATA[<h2>一.静态库</h2>
 
 <h3>定义</h3>
 
@@ -87,18 +85,18 @@
 
 <p>接下来我们需要编译这些源代码</p>
 
-<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span>
-</span><span class='line'><span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>  <span class="n">say</span><span class="p">.</span><span class="n">h</span>  <span class="n">say</span><span class="p">.</span><span class="n">o</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ar</span> <span class="n">cr</span> <span class="n">libsay</span><span class="p">.</span><span class="n">a</span> <span class="n">say</span><span class="p">.</span><span class="n">o</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span>
-</span><span class='line'><span class="n">libsay</span><span class="p">.</span><span class="n">a</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">h</span> <span class="n">say</span><span class="p">.</span><span class="n">o</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$&gt;</span> gcc -c say.c
+</span><span class='line'><span class="nv">$&gt;</span> ls
+</span><span class='line'>main.c say.c  say.h  say.o
+</span><span class='line'><span class="nv">$&gt;</span> ar cr libsay.a say.o
+</span><span class='line'><span class="nv">$&gt;</span> ls
+</span><span class='line'>libsay.a main.c say.c say.h say.o
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -113,7 +111,7 @@
 
 <p>了解了上面的规则后可以使用刚刚产生的静态库</p>
 
-<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -121,33 +119,33 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">o</span> <span class="n">say_hi</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="o">-</span><span class="n">L</span><span class="p">.</span> <span class="o">-</span><span class="n">lsay</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span> <span class="o">-</span><span class="n">lh</span>
-</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>   <span class="mf">1.0</span><span class="n">K</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">10</span><span class="o">:</span><span class="mi">52</span> <span class="n">libsay</span><span class="p">.</span><span class="n">a</span>
-</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>    <span class="mi">52</span><span class="n">B</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">10</span><span class="o">:</span><span class="mi">51</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span>
-</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>    <span class="mi">89</span><span class="n">B</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">10</span><span class="o">:</span><span class="mi">51</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>
-</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>    <span class="mi">66</span><span class="n">B</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">11</span><span class="o">:</span><span class="mi">17</span> <span class="n">say</span><span class="p">.</span><span class="n">h</span>
-</span><span class='line'><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>   <span class="mi">832</span><span class="n">B</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">10</span><span class="o">:</span><span class="mi">51</span> <span class="n">say</span><span class="p">.</span><span class="n">o</span>
-</span><span class='line'><span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">clive</span>  <span class="n">staff</span>   <span class="mf">8.3</span><span class="n">K</span> <span class="mi">12</span> <span class="mi">26</span> <span class="mi">11</span><span class="o">:</span><span class="mi">17</span> <span class="n">say_hi</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$&gt;</span> gcc -o say_hi main.c -L. -lsay
+</span><span class='line'><span class="nv">$&gt;</span> ls -lh
+</span><span class='line'>-rw-r--r--  1 clive  staff   1.0K 12 26 10:52 libsay.a
+</span><span class='line'>-rw-r--r--  1 clive  staff    52B 12 26 10:51 main.c
+</span><span class='line'>-rw-r--r--  1 clive  staff    89B 12 26 10:51 say.c
+</span><span class='line'>-rw-r--r--  1 clive  staff    66B 12 26 11:17 say.h
+</span><span class='line'>-rw-r--r--  1 clive  staff   832B 12 26 10:51 say.o
+</span><span class='line'>-rwxr-xr-x  1 clive  staff   8.3K 12 26 11:17 say_hi
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>从上面的显示结果可以看出编译后的say_hi可执行程序有8.3K,同时当我们删除了libsay.a后，这个可执行程序任然可以正常执行。</p>
 
-<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="p">.</span><span class="o">/</span><span class="n">say_hi</span>
-</span><span class='line'><span class="n">Say</span> <span class="n">hi</span> <span class="n">to</span> <span class="n">John</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">rm</span> <span class="n">libsay</span><span class="p">.</span><span class="n">a</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span>
-</span><span class='line'><span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>  <span class="n">say</span><span class="p">.</span><span class="n">h</span>  <span class="n">say</span><span class="p">.</span><span class="n">o</span>  <span class="n">say_hi</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="p">.</span><span class="o">/</span><span class="n">say_hi</span>
-</span><span class='line'><span class="n">Say</span> <span class="n">hi</span> <span class="n">to</span> <span class="n">John</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$&gt;</span> ./say_hi
+</span><span class='line'>Say hi to John
+</span><span class='line'><span class="nv">$&gt;</span> rm libsay.a
+</span><span class='line'><span class="nv">$&gt;</span> ls
+</span><span class='line'>main.c say.c  say.h  say.o  say_hi
+</span><span class='line'><span class="nv">$&gt;</span> ./say_hi
+</span><span class='line'>Say hi to John
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -177,7 +175,7 @@
 
 <p>下面这个实验我们将之前编译的say.c编译成动态库，实验步骤如下：</p>
 
-<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -188,17 +186,17 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">fPCI</span> <span class="n">say</span><span class="p">.</span><span class="n">c</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">shared</span> <span class="o">-</span><span class="n">fPIC</span> <span class="o">-</span><span class="n">o</span> <span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="n">say</span><span class="p">.</span><span class="n">o</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ls</span>
-</span><span class='line'><span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span>    <span class="n">say</span><span class="p">.</span><span class="n">c</span>     <span class="n">say</span><span class="p">.</span><span class="n">h</span>     <span class="n">say</span><span class="p">.</span><span class="n">o</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">o</span> <span class="n">say_hi</span> <span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="o">-</span><span class="n">L</span><span class="p">.</span> <span class="o">-</span><span class="n">lsay</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">cp</span> <span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="p">.</span><span class="o">/</span><span class="n">say_hi</span>
-</span><span class='line'><span class="p">.</span><span class="o">/</span><span class="n">say_hi</span><span class="o">:</span> <span class="n">error</span> <span class="k">while</span> <span class="n">loading</span> <span class="n">shared</span> <span class="n">libraries</span><span class="o">:</span> <span class="n">libsay</span><span class="p">.</span><span class="n">so</span><span class="o">:</span> <span class="n">cannot</span> <span class="n">open</span> <span class="n">shared</span> <span class="n">object</span> <span class="n">file</span><span class="o">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">mv</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">lib</span>
-</span><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="p">.</span><span class="o">/</span><span class="n">say_hi</span>
-</span><span class='line'><span class="n">Say</span> <span class="n">hi</span> <span class="n">to</span> <span class="n">John</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$&gt;</span> gcc -c -fPCI say.c
+</span><span class='line'><span class="nv">$&gt;</span> gcc -shared -fPIC -o libsay.so say.o
+</span><span class='line'><span class="nv">$&gt;</span> ls
+</span><span class='line'>libsay.so main.c    say.c     say.h     say.o
+</span><span class='line'><span class="nv">$&gt;</span> gcc -o say_hi main.c -L. -lsay
+</span><span class='line'><span class="nv">$&gt;</span> cp libsay.so /usr/lib
+</span><span class='line'><span class="nv">$&gt;</span> ./say_hi
+</span><span class='line'>./say_hi: error <span class="k">while </span>loading shared libraries: libsay.so: cannot open shared object file: No such file or directory
+</span><span class='line'><span class="nv">$&gt;</span> mv /usr/lib/libsay.so /lib
+</span><span class='line'><span class="nv">$&gt;</span> ./say_hi
+</span><span class='line'>Say hi to John
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -209,16 +207,16 @@
 
 <p>ldd命令</p>
 
-<figure class='code'><figcaption><span>main.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="o">&gt;</span> <span class="n">ldd</span> <span class="n">say_hi</span>
-</span><span class='line'>  <span class="n">linux</span><span class="o">-</span><span class="n">vdso</span><span class="p">.</span><span class="n">so</span><span class="mf">.1</span> <span class="o">=&gt;</span>  <span class="p">(</span><span class="mh">0x00007fff037ff000</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="o">=&gt;</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsay</span><span class="p">.</span><span class="n">so</span> <span class="p">(</span><span class="mh">0x00007faea1f6b000</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">libc</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libc</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="p">(</span><span class="mh">0x0000003847400000</span><span class="p">)</span>
-</span><span class='line'>  <span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">ld</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="mf">64.</span><span class="n">so</span><span class="mf">.2</span> <span class="p">(</span><span class="mh">0x0000003847000000</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$&gt;</span> ldd say_hi
+</span><span class='line'>  linux-vdso.so.1 <span class="o">=</span>&gt;  <span class="o">(</span>0x00007fff037ff000<span class="o">)</span>
+</span><span class='line'>  libsay.so <span class="o">=</span>&gt; /usr/lib/libsay.so <span class="o">(</span>0x00007faea1f6b000<span class="o">)</span>
+</span><span class='line'>  libc.so.6 <span class="o">=</span>&gt; /lib64/libc.so.6 <span class="o">(</span>0x0000003847400000<span class="o">)</span>
+</span><span class='line'>  /lib64/ld-linux-x86-64.so.2 <span class="o">(</span>0x0000003847000000<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
